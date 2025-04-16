@@ -1,6 +1,7 @@
 todo
 
-[ ] deploy
-[ ] ui/mock
+[x] deploy
+[x] ui/mock
+[x] tidy
 [ ] database(postgre)
 [ ] auth
