@@ -2,6 +2,15 @@ import { sql } from "drizzle-orm";
 import { 
   pgTableCreator,
   pgEnum,
+  integer,
+  varchar,
+  text,
+  timestamp,
+  date,
+  boolean,
+  numeric,
+  index,
+  uniqueIndex
 } from "drizzle-orm/pg-core";
 
 /**
@@ -28,7 +37,13 @@ export const users = createTable(
     rating: t.numeric("rating", { precision: 2, scale: 1 }),
     createdAt: t.timestamp("created_at", { withTimezone: true }).default(sql`CURRENT_TIMESTAMP`).notNull(),
     updatedAt: t.timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
-  })
+  }),
+  (t) => [
+    // Email unique index is automatically created by .unique() constraint
+    index("idx_users_name").on(t.lastName, t.firstName),
+    index("idx_users_acc_type").on(t.accType),
+    index("idx_users_rating").on(t.rating)
+  ]
 );
 
 // Messages table
@@ -42,7 +57,13 @@ export const messages = createTable(
     receiverId: t.integer("receiver_id").references(() => users.userId).notNull(),
     createdAt: t.timestamp("created_at", { withTimezone: true }).default(sql`CURRENT_TIMESTAMP`).notNull(),
     updatedAt: t.timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
-  })
+  }),
+  (t) => [
+    index("idx_messages_sender").on(t.senderId),
+    index("idx_messages_receiver").on(t.receiverId),
+    index("idx_messages_sender_receiver").on(t.senderId, t.receiverId),
+    index("idx_messages_time").on(t.messageTime),
+  ]
 );
 
 // Gigs table
@@ -59,7 +80,12 @@ export const gigs = createTable(
     price: t.numeric("price", { precision: 10, scale: 2 }).notNull(), // Using numeric instead of money
     createdAt: t.timestamp("created_at", { withTimezone: true }).default(sql`CURRENT_TIMESTAMP`).notNull(),
     updatedAt: t.timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
-  })
+  }),
+  (t) => [
+    index("idx_gigs_freelancer").on(t.freelancerId),
+    index("idx_gigs_category").on(t.category),
+    index("idx_gigs_price").on(t.price),
+  ]
 );
 
 // Orders table
@@ -74,7 +100,13 @@ export const orders = createTable(
     amount: t.numeric("amount", { precision: 10, scale: 2 }).notNull(),
     createdAt: t.timestamp("created_at", { withTimezone: true }).default(sql`CURRENT_TIMESTAMP`).notNull(),
     updatedAt: t.timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
-  })
+  }),
+  (t) => [
+    index("idx_orders_gig").on(t.gigId),
+    index("idx_orders_client").on(t.clientId),
+    index("idx_orders_date").on(t.transactionDate),
+    index("idx_orders_payment_status").on(t.paymentStatus)
+  ]
 );
 
 // Payment table
@@ -87,7 +119,12 @@ export const payments = createTable(
     freelancerId: t.integer("freelancer_id").references(() => users.userId).notNull(),
     createdAt: t.timestamp("created_at", { withTimezone: true }).default(sql`CURRENT_TIMESTAMP`).notNull(),
     updatedAt: t.timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
-  })
+  }),
+  (t) => [
+    index("idx_payment_order").on(t.orderId),
+    index("idx_payment_client").on(t.clientId),
+    index("idx_payment_freelancer").on(t.freelancerId)
+  ]
 );
 
 // Reviews table
@@ -102,7 +139,13 @@ export const reviews = createTable(
     reviewerId: t.integer("reviewer_id").references(() => users.userId).notNull(),
     createdAt: t.timestamp("created_at", { withTimezone: true }).default(sql`CURRENT_TIMESTAMP`).notNull(),
     updatedAt: t.timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
-  })
+  }),
+  (t) => [
+    index("idx_review_receiver").on(t.receiverId),
+    index("idx_review_reviewer").on(t.reviewerId),
+    index("idx_review_rating").on(t.rating),
+    index("idx_review_date").on(t.reviewDate),
+  ]
 );
 
 // Disputes table
@@ -116,5 +159,10 @@ export const disputes = createTable(
     description: t.text("description").notNull(),
     createdAt: t.timestamp("created_at", { withTimezone: true }).default(sql`CURRENT_TIMESTAMP`).notNull(),
     updatedAt: t.timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
-  })
+  }),
+  (t) => [
+    index("idx_disputes_order").on(t.orderId),
+    index("idx_disputes_complainant").on(t.complainantId),
+    index("idx_disputes_respondent").on(t.respondentId),
+  ]
 );
