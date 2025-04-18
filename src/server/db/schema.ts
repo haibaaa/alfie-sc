@@ -1,16 +1,8 @@
 import { sql } from "drizzle-orm";
-import { 
+import {
   pgTableCreator,
   pgEnum,
-  integer,
-  varchar,
-  text,
-  timestamp,
-  date,
-  boolean,
-  numeric,
   index,
-  uniqueIndex
 } from "drizzle-orm/pg-core";
 
 /**
@@ -25,8 +17,8 @@ export const accountTypeEnum = pgEnum('account_type', ['client', 'freelancer', '
 export const users = createTable(
   "users",
   (t) => ({
-    userId: t.integer("user_id").primaryKey().generatedByDefaultAsIdentity(),
-    password: t.varchar("password", { length: 255 }).notNull(),
+    userId: t.varchar("user_id", {length: 255}).primaryKey(),
+    password: t.varchar("password", { length: 255 }).default(""),
     firstName: t.varchar("first_name", { length: 100 }).notNull(),
     lastName: t.varchar("last_name", { length: 100 }).notNull(),
     bio: t.text("bio"),

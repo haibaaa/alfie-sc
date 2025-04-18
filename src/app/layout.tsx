@@ -3,11 +3,6 @@ import TopNav from "./_components/topNav"
 
 import {
   ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
 } from '@clerk/nextjs'
 
 import { type Metadata } from "next";
