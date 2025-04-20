@@ -50,6 +50,9 @@ importers:
       drizzle-orm:
         specifier: ^0.41.0
         version: 0.41.0(@types/pg@8.11.6)(@vercel/postgres@0.10.0)(gel@2.0.2)(postgres@3.4.5)
+      framer-motion:
+        specifier: ^12.7.4
+        version: 12.7.4(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       lucide-react:
         specifier: ^0.501.0
         version: 0.501.0(react@19.1.0)
