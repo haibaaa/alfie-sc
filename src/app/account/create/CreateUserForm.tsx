@@ -57,6 +57,8 @@ export default function CreateUserForm() {
   };
 
   return (
+  <body className="min-h-screen bg-[#1c1c1c]">
+
     <Card className="shadow-lg bg-[#1c1c1c] border border-white/10 text-white">
       <CardHeader className="border-b border-white/10">
         <CardTitle className="text-2xl text-white">Create New User</CardTitle>
@@ -65,7 +67,7 @@ export default function CreateUserForm() {
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="pt-6 bg-[#1c1c1c]">
+      <CardContent className="pt-5 bg-[#1c1c1c]">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
@@ -152,5 +154,6 @@ export default function CreateUserForm() {
         </button>
       </CardFooter>
     </Card>
+  </body>
   );
 }
