@@ -22,19 +22,18 @@
 //   )
 // }
 
+// src/app/main/layout.tsx
+
 "use client";
 
 import { AppSidebar } from "~/app/main/_components/app-sidebar";
-import { useState } from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen">
-      {<AppSidebar />}
-      <main className="flex-1">
-        <div className="p-4">
-          {children}
-        </div>
+    <div className="flex min-h-screen bg-[#141414] text-white">
+      <AppSidebar />
+      <main className="flex-1 p-4">
+        {children}
       </main>
     </div>
   );

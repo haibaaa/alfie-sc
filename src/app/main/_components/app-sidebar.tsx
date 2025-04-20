@@ -114,10 +114,10 @@ export function AppSidebar() {
         initial="open"
         animate={isOpen ? "open" : "closed"}
         variants={sidebarVariants}
-        className="h-screen bg-[var(--color-sidebar)] text-[var(--color-sidebar-foreground)] border-r border-[var(--color-sidebar-border)] flex flex-col"
+        className="h-screen bg-[#1c1c1c] text-white border-r border-white/10 flex flex-col"
       >
         {/* Header */}
-        <div className="p-4 h-14 border-b border-[var(--color-sidebar-border)] flex items-center justify-between">
+        <div className="p-4 h-14 border-b border-white/10 flex items-center justify-between">
           <AnimatePresence mode="wait">
             {isOpen && (
               <motion.span
@@ -128,18 +128,18 @@ export function AppSidebar() {
                 transition={{ duration: 0.2 }}
                 className="text-lg font-semibold"
               >
-
+                MyApp
               </motion.span>
             )}
           </AnimatePresence>
 
           <Menu
-            className="w-6 h-6 cursor-pointer"
+            className="w-6 h-6 cursor-pointer text-white"
             onClick={() => setIsOpen((prev) => !prev)}
           />
         </div>
 
-        {/* Nav content */}
+        {/* Navigation Content */}
         <div className="flex-1 overflow-auto p-4">
           <AnimatePresence>
             {isOpen && (
@@ -149,7 +149,7 @@ export function AppSidebar() {
                 animate={{ opacity: 0.7, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
-                className="text-sm font-medium mb-2"
+                className="text-sm font-medium mb-2 text-gray-400"
               >
                 Navigation
               </motion.h3>
@@ -161,11 +161,12 @@ export function AppSidebar() {
               <Link
                 key={item.title}
                 href={item.href}
-                className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-[var(--color-sidebar-accent)] hover:text-[var(--color-sidebar-accent-foreground)] transition-colors"
+                className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-[#2c2c2c] hover:text-[#6ec8b9] transition-colors"
               >
                 <motion.div
                   whileHover={{ scale: 1.15 }}
                   whileTap={{ scale: 0.95 }}
+                  className="text-white"
                 >
                   <item.icon className="w-5 h-5" />
                 </motion.div>
@@ -178,6 +179,7 @@ export function AppSidebar() {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.15 }}
+                      className="text-white"
                     >
                       {item.title}
                     </motion.span>
