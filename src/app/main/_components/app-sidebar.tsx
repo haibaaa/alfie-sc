@@ -82,10 +82,10 @@ import {
 import Link from "next/link";
 
 const navigationItems = [
-  { title: "Dashboard", href: "/dashboard", icon: Activity },
-  { title: "Messages", href: "/messages", icon: MessageSquare },
-  { title: "Gigs", href: "/gigs", icon: Briefcase },
-  { title: "Disputes", href: "/disputes", icon: AlertTriangle },
+  { title: "Dashboard", href: "/main/dashboard", icon: Activity },
+  { title: "Messages", href: "/main/messages", icon: MessageSquare },
+  { title: "Gigs", href: "/main/gigs", icon: Briefcase },
+  { title: "Disputes", href: "/main/disputes", icon: AlertTriangle },
 ];
 
 export function AppSidebar() {
