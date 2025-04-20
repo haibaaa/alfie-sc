@@ -267,14 +267,14 @@ export default function LandingPage() {
               Find freelancers for your projects or offer your skills to clients worldwide
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button className="bg-green-500 hover:bg-green-600 text-black px-8 py-6" onClick={() => window.location.href = "/account"}>
+            <Button className="bg-green-500 hover:bg-green-600 text-black px-8 py-6" onClick={() => window.location.href = "/auth/sign-up"}>
             Join as a Client
             </Button>
 
             <Button
             variant="outline"
             className="border-green-500 text-green-500 hover:bg-green-500/10 px-8 py-6"
-            onClick={() => window.location.href = "/account/"}
+            onClick={() => window.location.href = "/auth/sign-up/"}
             >
                 Join as a Freelancer
             </Button>
