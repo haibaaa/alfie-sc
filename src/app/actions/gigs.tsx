@@ -2,6 +2,7 @@
 
 import { db } from '~/server/db';
 import { gigs } from '~/server/db/schema';
+import { users } from '~/server/db/schema'; 
 import { revalidatePath } from 'next/cache';
 import { eq } from 'drizzle-orm';
 
@@ -49,5 +50,31 @@ export async function deleteGig(gigId: number) {
   } catch (err) {
     console.error('Error deleting gig:', (err as Error).message);
     throw new Error('Gig deletion failed');
+  }
+}
+
+export async function getGigsWithFreelancer() {
+  try {
+    const results = await db
+      .select({
+        gigId: gigs.gigId,
+        title: gigs.title,
+        description: gigs.description,
+        price: gigs.price,
+        category: gigs.category,
+        deliveryTime: gigs.deliveryTime,
+        freelancer: {
+          id: users.userId,
+          name: users.firstName,
+          // Add avatar, username etc. if needed
+        },
+      })
+      .from(gigs)
+      .innerJoin(users, eq(gigs.freelancerId, users.userId));
+
+    return results;
+  } catch (err) {
+    console.error('Error fetching gigs:', (err as Error).message);
+    throw new Error('Failed to fetch gigs');
   }
 }

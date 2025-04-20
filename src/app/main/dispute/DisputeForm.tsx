@@ -43,7 +43,7 @@ export default function DisputeForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white shadow p-4 rounded-xl space-y-4">
+    <form onSubmit={handleSubmit} className="bg-red-500 shadow p-4 rounded-xl space-y-4">
       <input
         type="number"
         name="orderId"
