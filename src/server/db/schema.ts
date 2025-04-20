@@ -27,8 +27,6 @@ export const users = createTable(
     accType: accountTypeEnum("acc_type").notNull(),
     joinDate: t.date("join_date").default(sql`CURRENT_DATE`).notNull(),
     profilePicture: t.varchar("profile_picture", { length: 255 }).notNull(),
-    
-  
     rating: t.numeric("rating", { precision: 2, scale: 1 }),
     createdAt: t.timestamp("created_at", { withTimezone: true }).default(sql`CURRENT_TIMESTAMP`).notNull(),
     updatedAt: t.timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
