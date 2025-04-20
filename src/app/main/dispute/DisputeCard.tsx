@@ -11,7 +11,7 @@ export default function DisputeCard({ dispute }: { dispute: Dispute }) {
       <div className="text-xs text-gray-600">
         Complainant: {dispute.complainantId} | Respondent: {dispute.respondentId}
       </div>
-      <div className="text-xs text-gray-400">Created: {new Date(dispute.createdAt).toLocaleString()}</div>
+      <div className="text-xs text-gray-400">Created: {dispute.createdAt}</div> {/* Display the already formatted date */}
     </div>
   );
 }
