@@ -1,12 +1,11 @@
 'use server';
 
-import { db } from '~/server/db';
-import { users } from '~/server/db/schema';
+import { db } from './index'; // correct path to db instance
+import { users } from './schema'; // correct path to schema
 import { auth } from '@clerk/nextjs/server';
 import { revalidatePath } from 'next/cache';
 import { eq } from 'drizzle-orm';
 
-// Define the expected shape of data
 interface OnboardingData {
   firstName?: string;
   lastName?: string;
@@ -16,36 +15,31 @@ interface OnboardingData {
   accType?: 'client' | 'freelancer' | 'admin';
 }
 
-// Insert or update user in custom `users` table
 export async function upsertUser(data: OnboardingData) {
-  const { userId } = await auth();
-  if (!userId) throw new Error('Unauthorized');
-  //const userId = "test-user-123";
+  const { userId: clerkUserId } = await auth();
+  if (!clerkUserId) throw new Error('Unauthorized');
 
   try {
+    console.log('Looking for user with userHash:', clerkUserId);
     const existingUser = await db.query.users.findFirst({
-      where: eq(users.userHash, userId),
+      where: eq(users.userHash, clerkUserId),
     });
+    console.log('Existing user found:', existingUser ? 'Yes' : 'No');
 
     const userValues = {
-      userHash: userId,
+      userHash: clerkUserId,
       firstName: data.firstName ?? '',
       lastName: data.lastName ?? '',
       bio: data.bio ?? 'Hello there!',
       profilePicture: data.profilePictureUrl ?? '',
       email: data.email ?? '',
       accType: data.accType ?? 'client',
-      rating: 5.0,
+      rating: String(5.0),
     };
 
     if (existingUser) {
-      // Update existing record
-      await db
-        .update(users)
-        .set(userValues)
-        .where(eq(users.userHash, userId));
+      await db.update(users).set(userValues).where(eq(users.userHash, clerkUserId));
     } else {
-      // Create new record
       await db.insert(users).values(userValues);
     }
 

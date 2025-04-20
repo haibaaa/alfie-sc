@@ -17,15 +17,18 @@ export const accountTypeEnum = pgEnum('account_type', ['client', 'freelancer', '
 export const users = createTable(
   "users",
   (t) => ({
-    userId: t.varchar("user_id", {length: 255}).primaryKey(),
-    password: t.varchar("password", { length: 255 }).default(""),
+    userId: t.serial("user_id").primaryKey(),
+    userHash: t.varchar("user_hash", {length: 255}),
     firstName: t.varchar("first_name", { length: 100 }).notNull(),
     lastName: t.varchar("last_name", { length: 100 }).notNull(),
-    bio: t.text("bio"),
-    joinDate: t.date("join_date").default(sql`CURRENT_DATE`).notNull(),
-    profilePicture: t.varchar("profile_picture", { length: 255 }),
     email: t.varchar("email", { length: 255 }).notNull().unique(),
+    password: t.varchar("password", { length: 255 }).default(""),
+    bio: t.varchar("bio", { length: 1024 }).default(""),
     accType: accountTypeEnum("acc_type").notNull(),
+    joinDate: t.date("join_date").default(sql`CURRENT_DATE`).notNull(),
+    profilePicture: t.varchar("profile_picture", { length: 255 }).notNull(),
+    
+  
     rating: t.numeric("rating", { precision: 2, scale: 1 }),
     createdAt: t.timestamp("created_at", { withTimezone: true }).default(sql`CURRENT_TIMESTAMP`).notNull(),
     updatedAt: t.timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
