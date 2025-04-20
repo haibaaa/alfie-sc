@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { createDispute } from '../../actions/disputes'; // Make sure this path is correct
 
 export default function DisputeForm() {
   const [formData, setFormData] = useState({
@@ -14,11 +15,31 @@ export default function DisputeForm() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Dispute submitted:", formData);
-    alert("Dispute submitted (check console)!");
-    // TODO: Hook to backend API later
+
+    // Call the createDispute server-side function
+    try {
+      await createDispute({
+        orderId: Number(formData.orderId),
+        complainantId: Number(formData.complainantId),
+        respondentId: Number(formData.respondentId),
+        description: formData.description,
+      });
+      alert("Dispute submitted successfully!");
+    } catch (error) {
+      console.error("Error submitting dispute:", error);
+      alert("There was an error submitting your dispute.");
+    }
+
+    // Optionally, reset the form after submission
+    setFormData({
+      orderId: '',
+      complainantId: '',
+      respondentId: '',
+      description: '',
+    });
   };
 
   return (

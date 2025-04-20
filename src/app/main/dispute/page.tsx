@@ -3,6 +3,8 @@
 import { mockDisputes } from './mockData';
 import DisputeCard from './DisputeCard';
 import DisputeForm from './DisputeForm';
+import { createDispute } from '../../actions/disputes';
+
 
 export default function DisputePage() {
   return (
