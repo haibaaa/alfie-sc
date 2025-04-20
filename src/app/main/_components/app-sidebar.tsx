@@ -78,6 +78,7 @@ import {
   Briefcase,
   AlertTriangle,
   Menu,
+  ShoppingCart,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -85,6 +86,7 @@ const navigationItems = [
   { title: "Dashboard", href: "/main/dashboard", icon: Activity },
   { title: "Messages", href: "/main/messages", icon: MessageSquare },
   { title: "Gigs", href: "/main/gigs", icon: Briefcase },
+  { title: "Orders", href: "/main/orders", icon: ShoppingCart },
   { title: "Disputes", href: "/main/disputes", icon: AlertTriangle },
 ];
 
