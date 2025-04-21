@@ -92,7 +92,7 @@ The selected technologies were chosen for their balance of performance, flexibil
 
 ## 9. Website
 
-The website is host in http://localhost:3000/
+The website is host in https://alfie-sc.vercel.app/
 
 ## 9. References
 
