@@ -90,6 +90,10 @@ The selected technologies were chosen for their balance of performance, flexibil
 
 ---
 
+## 9. Website
+
+The website is host in http://localhost:3000/
+
 ## 9. References
 
 - Vercel. (n.d.). *Next.js Documentation*. Retrieved from [Next.js Docs](https://nextjs.org)
