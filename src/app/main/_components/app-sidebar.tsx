@@ -87,7 +87,7 @@ const navigationItems = [
   { title: "Messages", href: "/main/messages", icon: MessageSquare },
   { title: "Gigs", href: "/main/gigs", icon: Briefcase },
   { title: "Orders", href: "/main/orders", icon: ShoppingCart },
-  { title: "Disputes", href: "/main/disputes", icon: AlertTriangle },
+  { title: "Disputes", href: "/main/dispute", icon: AlertTriangle },
 ];
 
 export function AppSidebar() {
