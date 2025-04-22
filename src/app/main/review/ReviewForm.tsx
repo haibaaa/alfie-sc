@@ -1,7 +1,24 @@
 'use client';
 import { useState } from 'react';
 
-export default function ReviewForm() {
+interface ReviewFormProps {
+  onReviewSubmit: (newReview: Review) => void;  // Define the prop type for onReviewSubmit
+}
+
+interface Review {
+  reviewId: number;
+  reviewDate: string;
+  rating: number;
+  feedback: string;
+  reviewerId: number;
+  receiverId: number;
+  reviewerName: string;
+  receiverName: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export default function ReviewForm({ onReviewSubmit }: ReviewFormProps) {
   const [formData, setFormData] = useState({
     rating: '',
     feedback: '',
@@ -14,11 +31,57 @@ export default function ReviewForm() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submitting review:", formData);
-    alert("Review submitted (check console)!");
-    // TODO: Integrate backend API call
+
+    try {
+      const response = await fetch('/api/reviews', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          rating: parseFloat(formData.rating),
+          reviewerId: parseInt(formData.reviewerId),
+          receiverId: parseInt(formData.receiverId),
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        // Prepare the new review data with proper formatting
+        const newReview = {
+          reviewId: Date.now(),  // Generate a unique review ID
+          reviewDate: new Date().toISOString().split('T')[0] || '',  // Ensure valid string value
+          rating: parseFloat(formData.rating),
+          feedback: formData.feedback,
+          reviewerId: parseInt(formData.reviewerId),
+          receiverId: parseInt(formData.receiverId),
+          reviewerName: 'User One',  // This should be replaced with actual reviewer name if available
+          receiverName: 'Receiver One',  // This should be replaced with actual receiver name if available
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        };
+
+        // Call the parent function to add the new review
+        onReviewSubmit(newReview);
+
+        // Clear the form fields
+        setFormData({
+          rating: '',
+          feedback: '',
+          reviewerId: '',
+          receiverId: '',
+        });
+      } else {
+        alert('Failed to submit review.');
+      }
+    } catch (error) {
+      console.error('Error submitting review:', error);
+      alert('Something went wrong.');
+    }
   };
 
   return (
@@ -33,7 +96,7 @@ export default function ReviewForm() {
         required
         value={formData.rating}
         onChange={handleChange}
-        className="w-full border px-3 py-2 rounded-xl"
+        className="w-full border px-3 py-2 rounded-xl text-gray-500"
       />
       <textarea
         name="feedback"
@@ -41,7 +104,7 @@ export default function ReviewForm() {
         required
         value={formData.feedback}
         onChange={handleChange}
-        className="w-full border px-3 py-2 rounded-xl"
+        className="w-full border px-3 py-2 rounded-xl text-gray-500"
       />
       <input
         type="text"
@@ -50,7 +113,7 @@ export default function ReviewForm() {
         required
         value={formData.reviewerId}
         onChange={handleChange}
-        className="w-full border px-3 py-2 rounded-xl"
+        className="w-full border px-3 py-2 rounded-xl text-gray-500"
       />
       <input
         type="text"
@@ -59,7 +122,7 @@ export default function ReviewForm() {
         required
         value={formData.receiverId}
         onChange={handleChange}
-        className="w-full border px-3 py-2 rounded-xl"
+        className="w-full border px-3 py-2 rounded-xl text-gray-500"
       />
       <button
         type="submit"
