@@ -47,7 +47,7 @@ export default function LandingPage() {
       reviews: 352,
       image: "/api/placeholder/600/400",
       seller: {
-        name: "Jason Lee",
+        name: "Ritwik Bhattacharyya",
         avatar: "/api/placeholder/50/50",
         level: "Top Rated"
       }
@@ -61,7 +61,7 @@ export default function LandingPage() {
       reviews: 189,
       image: "/api/placeholder/600/400",
       seller: {
-        name: "Sofia Davis",
+        name: "Samarth Patel",
         avatar: "/api/placeholder/50/50",
         level: "Level 2"
       }
@@ -75,7 +75,7 @@ export default function LandingPage() {
       reviews: 124,
       image: "/api/placeholder/600/400",
       seller: {
-        name: "Isabella Nguyen",
+        name: "Neil",
         avatar: "/api/placeholder/50/50",
         level: "Level 1"
       }
@@ -89,7 +89,7 @@ export default function LandingPage() {
       reviews: 218,
       image: "/api/placeholder/600/400",
       seller: {
-        name: "Michael Johnson",
+        name: "Nandini Menon",
         avatar: "/api/placeholder/50/50",
         level: "Top Rated"
       }
@@ -142,7 +142,7 @@ export default function LandingPage() {
       </section>
       
       {/* Trusted By */}
-      <section className="py-8 bg-[#1c1c1c]">
+      {/* <section className="py-8 bg-[#1c1c1c]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
             <p className="text-gray-400 text-sm">Trusted by:</p>
@@ -155,7 +155,29 @@ export default function LandingPage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
+
+<section className="py-8 bg-[#1c1c1c]">
+  <div className="container mx-auto px-4">
+    <div className="text-center mb-8">
+      <p className="text-gray-400 text-sm">Trusted by:</p>
+    </div>
+    <div className="flex justify-center flex-wrap gap-8 md:gap-16 opacity-80">
+      {[
+        "https://snu.edu.in/site/templates/images/logo.svg",
+        "https://via.placeholder.com/96x40?text=Logo+2",
+        "https://via.placeholder.com/96x40?text=Logo+3",
+        "https://via.placeholder.com/96x40?text=Logo+4",
+        "https://via.placeholder.com/96x40?text=Logo+5",
+      ].map((src, index) => (
+        <div key={index} className="h-10 w-24">
+          <img src={src} alt={`Logo ${index + 1}`} className="h-full w-full object-contain" />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
       
       {/* Popular Services */}
       <section className="py-16">
