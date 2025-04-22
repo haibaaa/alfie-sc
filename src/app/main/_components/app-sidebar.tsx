@@ -130,7 +130,7 @@ export function AppSidebar() {
                 transition={{ duration: 0.2 }}
                 className="text-lg font-semibold"
               >
-                MyApp
+                alfie
               </motion.span>
             )}
           </AnimatePresence>
