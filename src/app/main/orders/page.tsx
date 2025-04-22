@@ -1,24 +1,39 @@
 import { db } from '~/server/db';
-import { orders, gigs } from '~/server/db/schema';
+import { orders, gigs, users } from '~/server/db/schema';
 import { auth } from '@clerk/nextjs/server';
 import { eq } from 'drizzle-orm';
 
 export default async function OrdersPage() {
   const { userId } = await auth();
 
+  console.log("Current userId:", userId);
+
   if (!userId) return <div>Please sign in to view your orders.</div>;
 
-  const userIdInt = parseInt(userId, 10);
+  // Fetch the user data from the users table using the Clerk userId (userHash)
+  const user = await db
+    .select()
+    .from(users)
+    .where(eq(users.userHash, userId))  // Clerk's userId is stored in the userHash field
+    .limit(1)
+    .then((res) => res[0]);
 
-  // Ensure that the userId is a valid integer before making the query
-  if (isNaN(userIdInt)) {
-    return <div>Error: Invalid user ID.</div>;
+  if (!user) {
+    return <div>Error: User not found.</div>;
   }
 
+  const userHash = user.userHash;  // This is the Clerk userId stored in userHash
+
+  // Ensure that userHash is valid before proceeding
+  if (!userHash) {
+    return <div>Error: Invalid user hash.</div>;
+  }
+
+  // Fetch the user's orders using the userHash
   const userOrders = await db
     .select()
     .from(orders)
-    .where(eq(orders.clientId, (userIdInt)))
+    .where(eq(orders.clientId, user.userId))  // Use the actual userId from the users table to query orders
     .innerJoin(gigs, eq(orders.gigId, gigs.gigId));
 
   return (
