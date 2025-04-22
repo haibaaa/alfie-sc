@@ -29,7 +29,7 @@ const teamMembers = [
 export default function DashboardPage() {
   const { userId, isLoaded } = useAuth();
   const router = useRouter();
-  const [currentMonth] = useState("June 2023");
+  const [currentMonth] = useState("April 2025");
 
   useEffect(() => {
     if (isLoaded && !userId) {
@@ -38,12 +38,13 @@ export default function DashboardPage() {
   }, [isLoaded, userId, router]);
 
   if (!isLoaded || !userId) {
-    return null; // or <Loading />
+    return null;
   }
 
   return (
     <div className="min-h-screen bg-[#141414] p-8">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 md:auto-rows-fr gap-6">
+        {/* Revenue */}
         <Card className="bg-[#1c1c1c] border-0 text-white md:col-span-2">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-normal text-gray-400">Total Revenue</CardTitle>
@@ -68,7 +69,8 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-[#1c1c1c] border-0 text-white">
+        {/* Subscriptions */}
+        <Card className="bg-[#1c1c1c] border-0 text-white md:col-span-2">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-normal text-gray-400">Subscriptions</CardTitle>
           </CardHeader>
@@ -85,26 +87,26 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-[#1c1c1c] border-0 text-white">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <Button variant="ghost" size="icon" className="text-white">
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <CardTitle className="text-sm font-normal">{currentMonth}</CardTitle>
-            <Button variant="ghost" size="icon" className="text-white">
-              <ChevronRight className="h-4 w-4" />
-            </Button>
+        {/* Performance */}
+        <Card className="bg-[#1c1c1c] border-0 text-white md:col-span-2">
+          <CardHeader>
+            <CardTitle className="text-lg">Performance</CardTitle>
+            <CardDescription className="text-gray-400">
+              Your performance so far
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-7 gap-1 text-center mb-2">
-              {days.map((day) => (
-                <div key={day} className="text-xs text-gray-400 w-8">{day}</div>
-              ))}
+            <div className="h-40">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={exerciseData}>
+                  <Line type="monotone" dataKey="value" stroke="#10b981" strokeWidth={2} dot={false} />
+                </LineChart>
+              </ResponsiveContainer>
             </div>
-            {/* Calendar dates omitted for brevity */}
           </CardContent>
         </Card>
 
+        {/* Team Members */}
         <Card className="bg-[#1c1c1c] border-0 text-white md:col-span-2">
           <CardHeader>
             <CardTitle className="text-lg">Team Members</CardTitle>
@@ -134,20 +136,40 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
+        {/* Calendar - moved below Team Members */}
         <Card className="bg-[#1c1c1c] border-0 text-white md:col-span-2">
-          <CardHeader>
-            <CardTitle className="text-lg">Performance</CardTitle>
-            <CardDescription className="text-gray-400">
-              Your performance so far
-            </CardDescription>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <Button variant="ghost" size="icon" className="text-white">
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <CardTitle className="text-sm font-normal">{currentMonth}</CardTitle>
+            <Button variant="ghost" size="icon" className="text-white">
+              <ChevronRight className="h-4 w-4" />
+            </Button>
           </CardHeader>
           <CardContent>
-            <div className="h-40">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={exerciseData}>
-                  <Line type="monotone" dataKey="value" stroke="#10b981" strokeWidth={2} dot={false} />
-                </LineChart>
-              </ResponsiveContainer>
+            <div className="grid grid-cols-7 gap-1 text-center mb-2">
+              {days.map((day) => (
+                <div key={day} className="text-xs text-gray-400 w-8">{day}</div>
+              ))}
+            </div>
+            <div className="grid grid-cols-7 gap-1 text-center">
+              {Array.from({ length: 2 }).map((_, i) => (
+                <div key={`empty-${i}`} className="w-8 h-8" />
+              ))}
+              {Array.from({ length: 30 }, (_, i) => {
+                const date = i + 1;
+                const isHighlighted = date === 25;
+                return (
+                  <div
+                    key={date}
+                    className={`w-8 h-8 text-sm flex items-center justify-center rounded-md cursor-pointer transition-colors duration-200
+                      ${isHighlighted ? "bg-green-500 text-black" : "hover:bg-white hover:text-black"}`}
+                  >
+                    {date}
+                  </div>
+                );
+              })}
             </div>
           </CardContent>
         </Card>

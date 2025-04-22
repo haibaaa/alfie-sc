@@ -116,7 +116,7 @@ export function AppSidebar() {
         initial="open"
         animate={isOpen ? "open" : "closed"}
         variants={sidebarVariants}
-        className="h-screen bg-[#1c1c1c] text-white border-r border-white/10 flex flex-col"
+        className="h-full bg-[#1c1c1c] text-white border-r border-white/10 flex flex-col"
       >
         {/* Header */}
         <div className="p-4 h-14 border-b border-white/10 flex items-center justify-between">
@@ -142,7 +142,7 @@ export function AppSidebar() {
         </div>
 
         {/* Navigation Content */}
-        <div className="flex-1 overflow-auto p-4">
+        <div className=" flex-1 overflow-auto p-4">
           <AnimatePresence>
             {isOpen && (
               <motion.h3
