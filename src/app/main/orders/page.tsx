@@ -34,11 +34,13 @@ export default async function OrdersPage() {
     .select()
     .from(orders)
     .where(eq(orders.clientId, user.userId))  // Use the actual userId from the users table to query orders
-    .innerJoin(gigs, eq(orders.gigId, gigs.gigId));
+    .innerJoin(gigs, eq(orders.gigId, gigs.gigId))  // Joining with gigs table
+    .execute()  // Use execute instead of select to run the query
+    .then((res) => res);
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-semibold mb-4">Your Orders</h1>
+      <h1 className="text-2xl font-semibold mb-4 text-white">Your Orders</h1>
 
       {userOrders.length === 0 ? (
         <p className="text-gray-600">You haven't booked any gigs yet.</p>
@@ -46,14 +48,18 @@ export default async function OrdersPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {userOrders.map(({ gigs: gig, orders: order }) => (
             <div key={order.orderId} className="p-4 border rounded-lg bg-white shadow">
-              <h2 className="text-lg font-semibold">{gig.title}</h2>
-              <p className="text-sm text-gray-600">{gig.description}</p>
-              <p className="text-sm mt-2">
+              <h2 className="text-lg font-semibold text-black">{gig.title}</h2>
+              <p className="text-sm text-black">{gig.description}</p>
+              <p className="text-sm mt-2 text-black">
                 <span className="font-medium">Amount:</span> ${order.amount}
               </p>
-              <p className="text-sm">
+              <p className="text-sm text-black">
                 <span className="font-medium">Status:</span>{' '}
                 {order.paymentStatus ? '✅ Paid' : '❌ Not Paid'}
+              </p>
+              <p className="text-sm text-black">
+                <span className="font-medium">Transaction Date:</span> 
+                {order.transactionDate ? new Date(order.transactionDate).toLocaleDateString() : 'No Date Available'}
               </p>
             </div>
           ))}
